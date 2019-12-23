@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+
+    public static PlayerControl instance;
+
     public GameObject leftArm, rightArm, torso, leftUpperLeg, rightUpperLeg, leftLowerLeg, rightLowerLeg, leftFoot, rightFoot, head, bar; // body parts + bar
     Rigidbody leftArmBody, rightArmBody, torsoBody, leftUpperLegBody, rightUpperLegBody, leftLowerLegBody, rightLowerLegBody, leftFootBody, rightFootBody, headBody; // rigidbodies
     HingeJoint leftArmHinge, rightArmHinge, leftShoulder, rightShoulder, leftHip, rightHip, leftKnee, rightKnee, leftAnkle, rightAnkle; // joints
@@ -19,6 +22,9 @@ public class PlayerControl : MonoBehaviour
     public Button tuckBtn;
     public Button resetBtn;
     public Button letGoBtn;
+
+    public bool shouldArch, shouldTuck, shouldLetGo;
+    
 
     void initJoints()
     {
@@ -117,6 +123,13 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (instance) {
+            Destroy(this);
+        } else {
+            instance = this;
+        }
+
         initJoints();
         initRigidbodies();
         initSprings();
@@ -125,30 +138,26 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool archBool = archBtn.GetComponent<ArchButton>().archButton;
-        bool tuckBool = tuckBtn.GetComponent<TuckButton>().tuckButton;
-        bool resetBool = resetBtn.GetComponent<ResetButton>().resetButton;
-        bool letGoBool = letGoBtn.GetComponent<LetGoButton>().letGoButton;
+        //bool archBool = archBtn.GetComponent<ArchButton>().archButton;
+        //bool tuckBool = tuckBtn.GetComponent<TuckButton>().tuckButton;
+        //bool resetBool = resetBtn.GetComponent<ResetButton>().resetButton;
+        //bool letGoBool = letGoBtn.GetComponent<LetGoButton>().letGoButton;
         
-        if (Input.GetKeyDown(KeyCode.UpArrow) || letGoBool)
+        if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
         {
             letGo();
-        }
-        if (Input.GetKeyDown(KeyCode.R) || resetBool)
-        {
-            resetScene();
+            shouldLetGo = false;
         }
         // set up tuck, arch, let go, reset buttons
-        if (Input.GetKey(KeyCode.LeftArrow) || archBool)
+        if (Input.GetKey(KeyCode.LeftArrow) || shouldArch)
         {
             arch();
         }
-        else if (Input.GetKey(KeyCode.Space) || tuckBool)
+        else if (Input.GetKey(KeyCode.Space) || shouldTuck)
         {
             tuck();
         }
-
-        else if (alreadyTucked && offBar) // if the player has already tucked and is not on the bar, go to landing position
+        else if (alreadyTucked) // if the player has already tucked and is not on the bar, go to landing position
         {
             land();
         }
