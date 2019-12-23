@@ -32,4 +32,8 @@ public class GameManager : MonoBehaviour
     public void setScene(string sceneName) {
         SceneManager.LoadScene(sceneName);
     }
+
+    public void resetScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
