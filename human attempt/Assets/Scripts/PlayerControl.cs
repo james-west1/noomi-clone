@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject leftArm, rightArm, torso, leftUpperLeg, rightUpperLeg, leftLowerLeg, rightLowerLeg, leftFoot, rightFoot, head, bar; // body parts + bar
     Rigidbody leftArmBody, rightArmBody, torsoBody, leftUpperLegBody, rightUpperLegBody, leftLowerLegBody, rightLowerLegBody, leftFootBody, rightFootBody, headBody; // rigidbodies
     HingeJoint leftArmHinge, rightArmHinge, leftShoulder, rightShoulder, leftHip, rightHip, leftKnee, rightKnee, leftAnkle, rightAnkle; // joints
-    JointSpring leftShoulderSpring, rightShoulderSpring, leftHipSpring, rightHipSpring, leftKneeSpring, rightKneeSpring, leftAnkleSpring, rightAnkleSpring; // spring component of joints
+    public JointSpring leftShoulderSpring, rightShoulderSpring, leftHipSpring, rightHipSpring, leftKneeSpring, rightKneeSpring, leftAnkleSpring, rightAnkleSpring; // spring component of joints
     public float strength; // "spring" constant, how hard the player tries to hit a body position
     public float damp; // how long it takes for the player to go from one pos to another, having a little bit makes it look more real
     bool offBar; // have the joints been destroyed?
@@ -275,10 +275,6 @@ public class PlayerControl : MonoBehaviour
         Destroy(leftArmHinge);
         Destroy(rightArmHinge);
         offBar = true; // not on the bar
-    }
-    public void resetScene()
-    {
-        SceneManager.LoadScene("SampleScene");
     }
 }
 
