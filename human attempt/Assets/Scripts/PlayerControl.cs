@@ -15,19 +15,78 @@ public class PlayerControl : MonoBehaviour
     public JointSpring leftShoulderSpring, rightShoulderSpring, leftHipSpring, rightHipSpring, leftKneeSpring, rightKneeSpring, leftAnkleSpring, rightAnkleSpring; // spring component of joints
     public float strength; // "spring" constant, how hard the player tries to hit a body position
     public float damp; // how long it takes for the player to go from one pos to another, having a little bit makes it look more real
-    bool offBar; // have the joints been destroyed?
+    public bool offBar = true; // have the joints been destroyed?
     bool alreadyTucked; // has the character tucked while off the bar yet?
 
-    public Button archBtn;
-    public Button tuckBtn;
-    public Button resetBtn;
-    public Button letGoBtn;
-
     public bool shouldArch, shouldTuck, shouldLetGo;
-    
 
-    void initJoints()
+    public float regrabCooldown;
+    public float currentRegrabCooldown;
+
+    public Transform leftHand, rightHand;
+
+    // Start is called before the first frame update
+    void Start()
     {
+        //Time.timeScale = 0.1f;
+
+        if (instance) {
+            Destroy(this);
+        } else {
+            instance = this;
+        }
+
+        initJoints();
+        initRigidbodies();
+        initSprings();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (currentRegrabCooldown > 0) {
+            currentRegrabCooldown -= Time.deltaTime;
+
+            if (currentRegrabCooldown < 0) {
+                currentRegrabCooldown = 0;
+            }
+        }
+
+        //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
+
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1f && offBar) {
+
+            Debug.Log("currentRegrabCooldown = " + currentRegrabCooldown);
+
+            reGrab();
+
+            Debug.Log("REGRABBED");
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
+        {
+            letGo();
+            shouldLetGo = false;
+        }
+        // set up tuck, arch, let go, reset buttons
+        if (Input.GetKey(KeyCode.LeftArrow) || shouldArch) {
+            arch();
+        } else if (Input.GetKey(KeyCode.Space) || shouldTuck) {
+            tuck();
+        } else if (Input.GetKeyDown(KeyCode.P)) {
+
+            transform.position = new Vector3(0, 2.7f, 1.2f);
+
+        } else if (alreadyTucked) // if the player has already tucked and is not on the bar, go to landing position
+          {
+            land();
+        } else // otherwise go to default position
+          {
+            defaultPosition();
+        }
+    }
+
+    void initJoints() {
         // initialize all hinge joints
         leftArmHinge = leftArm.GetComponent<HingeJoint>();
         rightArmHinge = rightArm.GetComponent<HingeJoint>();
@@ -42,8 +101,7 @@ public class PlayerControl : MonoBehaviour
         rightAnkle = rightFoot.GetComponent<HingeJoint>();
     }
 
-    void initRigidbodies()
-    {
+    void initRigidbodies() {
         // initialize all rigidbodies
         leftArmBody = leftArm.GetComponent<Rigidbody>();
         rightArmBody = rightArm.GetComponent<Rigidbody>();
@@ -80,8 +138,7 @@ public class PlayerControl : MonoBehaviour
         rightFootBody.maxAngularVelocity = float.MaxValue;
     }
 
-    void initSprings()
-    {
+    void initSprings() {
         // initialize springs, then set strength values
         leftShoulderSpring = leftShoulder.spring;
         rightShoulderSpring = rightShoulder.spring;
@@ -118,56 +175,6 @@ public class PlayerControl : MonoBehaviour
         rightKneeSpring.damper = damp;
         leftAnkleSpring.damper = damp;
         rightAnkleSpring.damper = damp;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        if (instance) {
-            Destroy(this);
-        } else {
-            instance = this;
-        }
-
-        initJoints();
-        initRigidbodies();
-        initSprings();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //bool archBool = archBtn.GetComponent<ArchButton>().archButton;
-        //bool tuckBool = tuckBtn.GetComponent<TuckButton>().tuckButton;
-        //bool resetBool = resetBtn.GetComponent<ResetButton>().resetButton;
-        //bool letGoBool = letGoBtn.GetComponent<LetGoButton>().letGoButton;
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
-        {
-            letGo();
-            shouldLetGo = false;
-        }
-        // set up tuck, arch, let go, reset buttons
-        if (Input.GetKey(KeyCode.LeftArrow) || shouldArch)
-        {
-            arch();
-        }
-        else if (Input.GetKey(KeyCode.Space) || shouldTuck)
-        {
-            tuck();
-        }
-        else if (alreadyTucked) // if the player has already tucked and is not on the bar, go to landing position
-        {
-            land();
-        }
-
-        else // otherwise go to default position
-        {
-            defaultPosition();
-        }
-
-
     }
 
     // body position methods tell the joints what angle they should go to, pretty much that simple (for now)
@@ -275,6 +282,26 @@ public class PlayerControl : MonoBehaviour
         Destroy(leftArmHinge);
         Destroy(rightArmHinge);
         offBar = true; // not on the bar
+        currentRegrabCooldown = regrabCooldown;
+    }
+
+    public void reGrab() {
+
+        if (currentRegrabCooldown == 0) {
+            leftArmHinge = leftArm.AddComponent<HingeJoint>();
+            leftArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
+            leftArmHinge.axis = bar.gameObject.transform.up;
+            leftArmHinge.autoConfigureConnectedAnchor = true;
+            leftArmHinge.anchor = new Vector3(0, 1.1f, 0);
+
+            rightArmHinge = rightArm.AddComponent<HingeJoint>();
+            rightArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
+            rightArmHinge.axis = bar.gameObject.transform.up;
+            rightArmHinge.autoConfigureConnectedAnchor = true;
+            rightArmHinge.anchor = new Vector3(0, 1.1f, 0);
+
+            offBar = false;
+        }
     }
 }
 
