@@ -298,7 +298,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.9629644, z: 0.0000009934108}
+  m_ConnectedAnchor: {x: 0, y: -0.9629635, z: -0.0000009934108}
   m_UseSpring: 1
   m_Spring:
     spring: 0
@@ -493,6 +493,7 @@ GameObject:
   - component: {fileID: 426649668}
   - component: {fileID: 426649667}
   - component: {fileID: 426649671}
+  - component: {fileID: 426649670}
   m_Layer: 0
   m_Name: right arm
   m_TagString: Untagged
@@ -574,6 +575,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426649665}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!59 &426649670
+HingeJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426649665}
+  m_ConnectedBody: {fileID: 785716689}
+  m_Anchor: {x: 0, y: 1.1, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.0000008940698, y: 0.29999998, z: 0.12999892}
+  m_UseSpring: 0
+  m_Spring:
+    spring: 0
+    damper: 0
+    targetPosition: 0
+  m_UseMotor: 0
+  m_Motor:
+    targetVelocity: 0
+    force: 0
+    freeSpin: 0
+  m_UseLimits: 0
+  m_Limits:
+    min: 0
+    max: 0
+    bounciness: 0
+    bounceMinVelocity: 0.2
+    contactDistance: 0
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!54 &426649671
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1503,7 +1539,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.8333342, z: -0.50000054}
+  m_ConnectedAnchor: {x: 0, y: -0.8333351, z: -0.50000054}
   m_UseSpring: 1
   m_Spring:
     spring: 0
@@ -2088,7 +2124,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.9629644, z: 0.0000009934108}
+  m_ConnectedAnchor: {x: 0, y: -0.9629635, z: -0.0000009934108}
   m_UseSpring: 1
   m_Spring:
     spring: 0
@@ -2214,6 +2250,7 @@ GameObject:
   - component: {fileID: 1258271696}
   - component: {fileID: 1258271695}
   - component: {fileID: 1258271699}
+  - component: {fileID: 1258271698}
   m_Layer: 0
   m_Name: left arm
   m_TagString: Untagged
@@ -2295,6 +2332,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258271693}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!59 &1258271698
+HingeJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258271693}
+  m_ConnectedBody: {fileID: 785716689}
+  m_Anchor: {x: 0, y: 1.1, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.0000014901162, y: -0.29999998, z: 0.12999892}
+  m_UseSpring: 0
+  m_Spring:
+    spring: 0
+    damper: 0
+    targetPosition: 0
+  m_UseMotor: 0
+  m_Motor:
+    targetVelocity: 0
+    force: 0
+    freeSpin: 0
+  m_UseLimits: 0
+  m_Limits:
+    min: 0
+    max: 0
+    bounciness: 0
+    bounceMinVelocity: 0.2
+    contactDistance: 0
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!54 &1258271699
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3040,8 +3112,6 @@ MonoBehaviour:
   shouldArch: 0
   shouldTuck: 0
   shouldLetGo: 0
-  regrabCooldown: 5
-  currentRegrabCooldown: 0
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
 --- !u!1 &1855154041
@@ -3240,7 +3310,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.8333342, z: -0.50000054}
+  m_ConnectedAnchor: {x: 0, y: -0.8333351, z: -0.50000054}
   m_UseSpring: 1
   m_Spring:
     spring: 0
@@ -3348,7 +3418,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2059866526}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.655, z: 1.171}
+  m_LocalPosition: {x: 0, y: 2, z: 1.253}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1258271694}
@@ -3390,11 +3460,9 @@ MonoBehaviour:
   strength: 2.5
   damp: 0.3
   offBar: 1
-  shouldArch: 1
+  shouldArch: 0
   shouldTuck: 0
   shouldLetGo: 0
-  regrabCooldown: 0.5
-  currentRegrabCooldown: 0
   leftHand: {fileID: 1507506168}
   rightHand: {fileID: 1336053736}
 --- !u!1 &2082026306
