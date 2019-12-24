@@ -54,7 +54,14 @@ public class PlayerControl : MonoBehaviour
 
         //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 0.5f && offBar) {
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < 2f && currentRegrabCooldown == 0 && offBar) {
+
+            rightArmBody.AddForce((bar.transform.position - rightArmBody.position) * 100);
+            leftArmBody.AddForce((bar.transform.position - leftArmBody.position) * 100);
+
+        }
+
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1.1f && currentRegrabCooldown == 0 && offBar) {
             reGrab();
         }
 
