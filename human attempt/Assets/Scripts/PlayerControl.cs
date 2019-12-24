@@ -20,9 +20,6 @@ public class PlayerControl : MonoBehaviour
 
     public bool shouldArch, shouldTuck, shouldLetGo;
 
-    public float regrabCooldown;
-    public float currentRegrabCooldown;
-
     public Transform leftHand, rightHand;
 
     // Start is called before the first frame update
@@ -44,25 +41,6 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentRegrabCooldown > 0) {
-            currentRegrabCooldown -= Time.deltaTime;
-
-            if (currentRegrabCooldown < 0) {
-                currentRegrabCooldown = 0;
-            }
-        }
-
-        //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
-
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1f && offBar) {
-
-            Debug.Log("currentRegrabCooldown = " + currentRegrabCooldown);
-
-            reGrab();
-
-            Debug.Log("REGRABBED");
-        }
-
         if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
         {
             letGo();
@@ -283,25 +261,6 @@ public class PlayerControl : MonoBehaviour
         Destroy(rightArmHinge);
         offBar = true; // not on the bar
         currentRegrabCooldown = regrabCooldown;
-    }
-
-    public void reGrab() {
-
-        if (currentRegrabCooldown == 0) {
-            leftArmHinge = leftArm.AddComponent<HingeJoint>();
-            leftArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
-            leftArmHinge.axis = bar.gameObject.transform.up;
-            leftArmHinge.autoConfigureConnectedAnchor = true;
-            leftArmHinge.anchor = new Vector3(0, 1.1f, 0);
-
-            rightArmHinge = rightArm.AddComponent<HingeJoint>();
-            rightArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
-            rightArmHinge.axis = bar.gameObject.transform.up;
-            rightArmHinge.autoConfigureConnectedAnchor = true;
-            rightArmHinge.anchor = new Vector3(0, 1.1f, 0);
-
-            offBar = false;
-        }
     }
 }
 
