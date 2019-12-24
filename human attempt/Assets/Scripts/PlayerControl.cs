@@ -260,7 +260,6 @@ public class PlayerControl : MonoBehaviour
         Destroy(leftArmHinge);
         Destroy(rightArmHinge);
         offBar = true; // not on the bar
-        currentRegrabCooldown = regrabCooldown;
     }
 }
 
