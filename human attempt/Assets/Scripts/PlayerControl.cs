@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour
     public float regrabCooldown;
     public float currentRegrabCooldown;
 
-    public Transform leftHand, rightHand;
+    public Transform rightHand, leftHand;
 
     // Start is called before the first frame update
     void Start()
@@ -54,13 +54,8 @@ public class PlayerControl : MonoBehaviour
 
         //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1f && offBar) {
-
-            Debug.Log("currentRegrabCooldown = " + currentRegrabCooldown);
-
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < 0.5f && offBar) {
             reGrab();
-
-            Debug.Log("REGRABBED");
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
@@ -83,6 +78,10 @@ public class PlayerControl : MonoBehaviour
         } else // otherwise go to default position
           {
             defaultPosition();
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+            shouldArch = false;
         }
     }
 
@@ -288,6 +287,10 @@ public class PlayerControl : MonoBehaviour
     public void reGrab() {
 
         if (currentRegrabCooldown == 0) {
+
+            leftHand.transform.position = bar.transform.position;
+            rightHand.transform.position = bar.transform.position;
+
             leftArmHinge = leftArm.AddComponent<HingeJoint>();
             leftArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
             leftArmHinge.axis = bar.gameObject.transform.up;
