@@ -44,6 +44,12 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (!offBar) {
+            Vector3.MoveTowards(leftArmHinge.anchor, new Vector3(0, 1.1f, 0), 0.1f);
+            Vector3.MoveTowards(rightArmHinge.anchor, new Vector3(0, 1.1f, 0), 0.1f);
+        }
+
         if (currentRegrabCooldown > 0) {
             currentRegrabCooldown -= Time.deltaTime;
 
@@ -54,14 +60,16 @@ public class PlayerControl : MonoBehaviour
 
         //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 2f && currentRegrabCooldown == 0 && offBar) {
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1.5f && currentRegrabCooldown == 0 && offBar) {
 
-            rightArmBody.AddForce((bar.transform.position - rightArmBody.position) * 100);
-            leftArmBody.AddForce((bar.transform.position - leftArmBody.position) * 100);
+            Debug.Log((bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
+
+            rightArmBody.AddForce(2 * (bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
+            leftArmBody.AddForce(2 * (bar.transform.position - leftHand.position) / Vector3.Distance(bar.transform.position, leftHand.position));
 
         }
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1.1f && currentRegrabCooldown == 0 && offBar) {
+        if (Vector3.Distance(rightHand.position, bar.transform.position) < .3f && currentRegrabCooldown == 0 && offBar) {
             reGrab();
         }
 
