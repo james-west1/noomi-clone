@@ -60,18 +60,18 @@ public class PlayerControl : MonoBehaviour
 
         //Debug.Log(Vector3.Distance(rightHand.position, bar.transform.position));
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < 1.5f && currentRegrabCooldown == 0 && offBar) {
+        //if (Vector3.Distance(rightHand.position, bar.transform.position) < 1.5f && currentRegrabCooldown == 0 && offBar) {
 
-            Debug.Log((bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
+        //    Debug.Log((bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
 
-            rightArmBody.AddForce(2 * (bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
-            leftArmBody.AddForce(2 * (bar.transform.position - leftHand.position) / Vector3.Distance(bar.transform.position, leftHand.position));
+        //    rightArmBody.AddForce(2 * (bar.transform.position - rightHand.position) / Vector3.Distance(bar.transform.position, rightHand.position));
+        //    leftArmBody.AddForce(2 * (bar.transform.position - leftHand.position) / Vector3.Distance(bar.transform.position, leftHand.position));
 
-        }
+        //}
 
-        if (Vector3.Distance(rightHand.position, bar.transform.position) < .3f && currentRegrabCooldown == 0 && offBar) {
-            reGrab();
-        }
+        //if (Vector3.Distance(rightHand.position, bar.transform.position) < .3f && currentRegrabCooldown == 0 && offBar) {
+        //    reGrab();
+        //}
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || shouldLetGo)
         {
@@ -302,10 +302,7 @@ public class PlayerControl : MonoBehaviour
     public void reGrab() {
 
         if (currentRegrabCooldown == 0) {
-
-            leftHand.transform.position = bar.transform.position;
-            rightHand.transform.position = bar.transform.position;
-
+            
             leftArmHinge = leftArm.AddComponent<HingeJoint>();
             leftArmHinge.connectedBody = bar.GetComponent<Rigidbody>();
             leftArmHinge.axis = bar.gameObject.transform.up;
